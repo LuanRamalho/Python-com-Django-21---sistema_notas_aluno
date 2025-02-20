@@ -1,0 +1,56 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Alunos</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Lista de Alunos</h1>
+
+    <!-- Barra de Busca -->
+    <form method="GET" action="{% url 'listar_alunos' %}">
+        <input type="text" name="q" placeholder="Buscar por nome" value="{{ query|default_if_none:'' }}">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <a href="{% url 'adicionar_aluno' %}">Adicionar Aluno</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Nota 1</th>
+                <th>Nota 2</th>
+                <th>Nota 3</th>
+                <th>Nota 4</th>
+                <th>Média</th>
+                <th>Situação</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aluno in alunos %}
+            <tr>
+                <td>{{ aluno.nome }}</td>
+                <td>{{ aluno.nota1 }}</td>
+                <td>{{ aluno.nota2 }}</td>
+                <td>{{ aluno.nota3 }}</td>
+                <td>{{ aluno.nota4 }}</td>
+                <td>{{ aluno.media }}</td>
+                <td>{{ aluno.situacao }}</td>
+                <td>
+                    <a href="{% url 'editar_aluno' aluno.id %}">Editar</a>
+                    <a href="{% url 'excluir_aluno' aluno.id %}">Excluir</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">Nenhum aluno encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
